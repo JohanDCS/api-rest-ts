@@ -1,28 +1,25 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
-import { tipogas } from "../interfaces/car.interface";
+import { tipodoc } from "../interfaces/personal.interface";
 
 @Entity()
-export class carDB{
+export class personal_DB{
     @PrimaryGeneratedColumn('increment')
-    carId: number;
+    PersonId: number;
 
-    @Column({nullable:false, length: '250'})
-    color: string;
+    @Column({nullable:false, length: '50'})
+    Nombres: string;
+    
+    @Column({nullable:false})
+    Apellidos: string;
 
     @Column({
         type: 'enum',
-        enum: tipogas,
-        default: tipogas.gasolina
+        enum: tipodoc,
+        default: tipodoc.DNI
     })
 
-    conbustible: tipogas;
+    TipoDocumento: tipodoc;
 
-    @Column({nullable:false})
-    año: number;
-
-    @Column({nullable:false, length: '1000', type: 'varchar'})
-    descripcion: string;
-
-    @Column({nullable:false})
-    price: number;
+    @Column({nullable:false, length: '25', type: 'varchar'})
+    NumDOc: string;
 }

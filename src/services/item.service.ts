@@ -1,69 +1,69 @@
 import { AppDataSource } from "../app.config"
-import { car } from "../interfaces/car.interface"
-import { carDB } from "../models/item"
+import { Personal } from "../interfaces/personal.interface"
+import { personal_DB } from "../models/item";
 
-const getCars = async () =>{
-    const responseCars = await AppDataSource.getRepository(carDB).find();
-    return responseCars;
+
+const getPersons = async () =>{
+    const responsePersons = await AppDataSource.getRepository(personal_DB).find();
+    return responsePersons;
 }
 
-const getCar = async (carid: string) =>{
-    const responseCar = await AppDataSource.getRepository(carDB).findOne({
+const getPerson = async (personID: string) =>{
+    const responsePerson = await AppDataSource.getRepository(personal_DB).findOne({
         where: {
-            carId : parseInt(carid)
+            PersonId : parseInt(personID)
         }
     })
-    return responseCar;
+    return responsePerson;
 }
 
 
-const insertCar = async (item: car) =>{
-    const car = new carDB();
-    car.color = item.color;
-    car.conbustible = item.conbustible;
-    car.año = item.año;
-    car.descripcion = item.descripcion;
-    car.price = item.price;
+const insertPerson = async (item: Personal) =>{
+    const Personal = new personal_DB();
+    Personal.Nombres = item.Nombres;
+    Personal.Apellidos = item.Apellidos;
+    Personal.TipoDocumento = item.TipoDocIdentidad;
+    Personal.NumDOc = item.NumDeIdenti;
+   
     
-    if(!item.conbustible)
-        throw new Error("comnbustible no admitido")
+    if(!item.TipoDocIdentidad)
+        throw new Error("Documento no valido")
 
-    const responseInsert = await AppDataSource.getRepository(carDB).save(car)
+    const responseInsert = await AppDataSource.getRepository(personal_DB).save(Personal)
     return responseInsert;
 
 }
 
-const updateCar = async (id: string, item: car) =>{
-    const newCar = await AppDataSource.getRepository(carDB).findOne({
+const updatePerson = async (id: string, item: Personal) =>{
+    const newPerson = await AppDataSource.getRepository(personal_DB).findOne({
         where: {
-            carId : parseInt(id)
+            PersonId : parseInt(id)
         }
     })
-    if(!newCar) throw new Error ("carro no encontrado")
+    if(!newPerson) throw new Error ("Persona no encontrada")
 
-    newCar.color = item.color;
-    newCar.conbustible = item.conbustible;
-    newCar.año = item.año;
-    newCar.descripcion = item.descripcion;
-    newCar.price = item.price;
+    newPerson.Nombres = item.Nombres;
+    newPerson.Apellidos = item.Apellidos;
+    newPerson.TipoDocumento = item.TipoDocIdentidad;
+    newPerson.NumDOc = item.NumDeIdenti;
 
-    if(!item.conbustible)
-        throw new Error("comnbustible no admitido")
+    if(!item.TipoDocIdentidad)
+        throw new Error("Documento no valido")
 
-    const responseInsert = await AppDataSource.getRepository(carDB).save(newCar)
+    const responseInsert = await AppDataSource.getRepository(personal_DB).save(newPerson)
     return responseInsert;
 
 }
 
-const deleteCar = async (carid:string) =>{
-    const eliminarCar = await AppDataSource.getRepository(carDB).findOne({
+const deletePerson = async (personid:string) =>{
+    const eliminarPerson = await AppDataSource.getRepository(personal_DB).findOne({
         where:{
-            carId : parseInt(carid)
+            PersonId : parseInt(personid)
         }
     })
-    if(!eliminarCar) throw new Error('No existe')
-    const responseDelete = await AppDataSource.getRepository(carDB).remove(eliminarCar)
+    if(!eliminarPerson) throw new Error('No existe dicha persona')
+    const responseDelete = await AppDataSource.getRepository(personal_DB).remove(eliminarPerson)
     return responseDelete;
 }
 
-export {insertCar, updateCar, getCars, getCar, deleteCar}
+export {insertPerson, updatePerson, getPerson, getPersons, deletePerson}

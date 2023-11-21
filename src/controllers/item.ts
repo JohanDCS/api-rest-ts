@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { handleHTTP } from "../utils/error.handle";
 import { deleteCar, getCar, getCars, insertCar, updateCar } from "../services/item.service";
-import { checkEnumTipoGas } from "../interfaces/car.interface";
+import { checkEnumTipoGas } from "../interfaces/personal.interface";
 
 const getItem = async (req: Request, res: Response)=> {
     try {
