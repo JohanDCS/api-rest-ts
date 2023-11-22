@@ -1,16 +1,16 @@
 import { DataSource } from "typeorm";
-import { carDB } from "./models/item";
+import { personalDB } from "./models/item";
 
 export const AppDataSource = new DataSource({
     type: "mysql",
     host: "localhost",
     port: 3306,
     username: "root",
-    password: "Juanito",
-    database: "two",
+    password: "root",
+    database: "asistencia",
     synchronize: true,
     logging: false,
-    entities: [carDB],
+    entities: [personalDB],
     subscribers: [],
     migrations: [],
 })

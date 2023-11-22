@@ -2,14 +2,14 @@ import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { tipodoc } from "../interfaces/personal.interface";
 
 @Entity()
-export class personal_DB{
+export class personalDB{
     @PrimaryGeneratedColumn('increment')
     PersonId: number;
 
     @Column({nullable:false, length: '50'})
     Nombres: string;
     
-    @Column({nullable:false})
+    @Column({nullable:false, length: '50'})
     Apellidos: string;
 
     @Column({
@@ -20,6 +20,6 @@ export class personal_DB{
 
     TipoDocumento: tipodoc;
 
-    @Column({nullable:false, length: '25', type: 'varchar'})
+    @Column({nullable:false, length: '18', type: 'varchar'})
     NumDOc: string;
 }

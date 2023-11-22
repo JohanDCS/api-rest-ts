@@ -1,16 +1,16 @@
 export interface Personal {
     Nombres: string;
-    Apellidos: number;
+    Apellidos: string;
     TipoDocIdentidad: tipodoc;
     NumDeIdenti: string;
 }
 
 export enum tipodoc{ 
-    DNI,
-    Carnet_Extranjeria}
+    DNI = "DNI",
+    Carnet_Extranjeria = "Carnet Extranjeria"}
 
-export const checkEnumTipoGas = (text: string): boolean => {
+export const checkEnumTipoDoc = (text: string): boolean => {
     if (text.toLocaleLowerCase() != "DNI" && 
-    text.toLocaleLowerCase() != "Carnet_Extranjeria") return false;
+    text.toLocaleLowerCase() != "Carnet Extranjeria") return false;
     return true;
 }

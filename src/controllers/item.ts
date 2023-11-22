@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
 import { handleHTTP } from "../utils/error.handle";
-import { deleteCar, getCar, getCars, insertCar, updateCar } from "../services/item.service";
-import { checkEnumTipoGas } from "../interfaces/personal.interface";
+import { deletePerson, getPerson, getPersons, insertPerson, updatePerson } from "../services/item.service";
+import { checkEnumTipoDoc, tipodoc } from "../interfaces/personal.interface";
 
 const getItem = async (req: Request, res: Response)=> {
     try {
         const {id} = req.params;
-        const responseCar = await getCar(id);
-        return res.status(200).json(responseCar)
+        const responsePerson = await getPerson(id);
+        return res.status(200).json(responsePerson)
     } catch (error) {
         handleHTTP(res, 'ERROR_GET_ITEM');
     }
@@ -15,8 +15,8 @@ const getItem = async (req: Request, res: Response)=> {
 
 const getItems = async (req : Request, res: Response)=>{
     try {
-        const responseCars = await getCars();
-        res.status(200).json(responseCars);
+        const responsePersons = await getPersons();
+        res.status(200).json(responsePersons);
     } catch (error) {
         handleHTTP(res, 'ERROR_GET_ITEMS')
     }
@@ -25,10 +25,10 @@ const getItems = async (req : Request, res: Response)=>{
 const updateItem = async (req : Request, res: Response)=>{
     try {
         const { id } = req.params
-        const {color, conbustible, ano, descripcion, price} = req.body
+        const {Nombres, Apellidos, TipoDocIdentidad, NumDeIdenti} = req.body
         if(!id) return res.status(404).json({message:'Id no encontrado'});
-        if (!conbustible || !checkEnumTipoGas(conbustible) ) return res.status(400).json({message: 'Debes ingresar un valor válido para combustible.'});
-        const responseUpdate = await updateCar( id, {color: color, conbustible: conbustible, año: ano, descripcion: descripcion, price: price});
+        if (!TipoDocIdentidad || !checkEnumTipoDoc(TipoDocIdentidad) ) return res.status(400).json({message: 'Menciona un documento valido'});
+        const responseUpdate = await updatePerson( id, {Nombres: Nombres, Apellidos: Apellidos, TipoDocIdentidad: TipoDocIdentidad, NumDeIdenti: NumDeIdenti});
         if(!responseUpdate) return res.json({message: 'Los datos no lograron guardarse'});
         return res.status(200).json({message:'Guardado con exito'});
         
@@ -40,11 +40,11 @@ const updateItem = async (req : Request, res: Response)=>{
 
 const postItem = async (request: Request, res: Response)=>{
     try {
-        const {color, conbustible, ano, descripcion, price} = request.body
-        if (!conbustible || !checkEnumTipoGas(conbustible) ) return res.status(400).json({message: 'Debes ingresar un valor válido para combustible.'})
-        const responseInsert = await insertCar({color: color, conbustible: conbustible, año: ano, descripcion: descripcion, price: price})
+        const {Nombres, Apellidos, TipoDocIdentidad, NumDeIdenti} = request.body
+        if (!TipoDocIdentidad || !checkEnumTipoDoc(TipoDocIdentidad)) return res.status(400).json({message: 'Debes ingresar un tipo de documento valido'})
+        const responseInsert = await insertPerson({Nombres: Nombres, Apellidos: Apellidos, TipoDocIdentidad: TipoDocIdentidad, NumDeIdenti: NumDeIdenti});
         
-        res.status(200).json({message: "Carro en camino"}) 
+        res.status(200).json({message: "Registro exitoso"}) 
     } catch (error) {
         handleHTTP(res, 'ERROR_POST_ITEM')
     }
@@ -55,8 +55,8 @@ const postItem = async (request: Request, res: Response)=>{
 const deleteItem = async (req: Request, res: Response)=>{
     try {
         const { id } = req.params;
-        const deletecar = await deleteCar(id);
-        if(!deleteCar) return res.json({message: 'El objeto que desea eliminar no existe'})
+        const deleteperson = await deletePerson(id);
+        if(!deleteperson) return res.json({message: 'La persona no existe'})
         return res.status(200).json({message: 'Ha sido borrado'});
     } catch (error) {
         handleHTTP(res, 'ERROR_DELETE_ITEM')

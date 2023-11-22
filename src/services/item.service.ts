@@ -1,15 +1,15 @@
 import { AppDataSource } from "../app.config"
 import { Personal } from "../interfaces/personal.interface"
-import { personal_DB } from "../models/item";
+import { personalDB } from "../models/item";
 
 
 const getPersons = async () =>{
-    const responsePersons = await AppDataSource.getRepository(personal_DB).find();
+    const responsePersons = await AppDataSource.getRepository(personalDB).find();
     return responsePersons;
 }
 
 const getPerson = async (personID: string) =>{
-    const responsePerson = await AppDataSource.getRepository(personal_DB).findOne({
+    const responsePerson = await AppDataSource.getRepository(personalDB).findOne({
         where: {
             PersonId : parseInt(personID)
         }
@@ -19,7 +19,7 @@ const getPerson = async (personID: string) =>{
 
 
 const insertPerson = async (item: Personal) =>{
-    const Personal = new personal_DB();
+    const Personal = new personalDB();
     Personal.Nombres = item.Nombres;
     Personal.Apellidos = item.Apellidos;
     Personal.TipoDocumento = item.TipoDocIdentidad;
@@ -29,13 +29,13 @@ const insertPerson = async (item: Personal) =>{
     if(!item.TipoDocIdentidad)
         throw new Error("Documento no valido")
 
-    const responseInsert = await AppDataSource.getRepository(personal_DB).save(Personal)
+    const responseInsert = await AppDataSource.getRepository(personalDB).save(Personal)
     return responseInsert;
 
 }
 
 const updatePerson = async (id: string, item: Personal) =>{
-    const newPerson = await AppDataSource.getRepository(personal_DB).findOne({
+    const newPerson = await AppDataSource.getRepository(personalDB).findOne({
         where: {
             PersonId : parseInt(id)
         }
@@ -50,19 +50,19 @@ const updatePerson = async (id: string, item: Personal) =>{
     if(!item.TipoDocIdentidad)
         throw new Error("Documento no valido")
 
-    const responseInsert = await AppDataSource.getRepository(personal_DB).save(newPerson)
+    const responseInsert = await AppDataSource.getRepository(personalDB).save(newPerson)
     return responseInsert;
 
 }
 
 const deletePerson = async (personid:string) =>{
-    const eliminarPerson = await AppDataSource.getRepository(personal_DB).findOne({
+    const eliminarPerson = await AppDataSource.getRepository(personalDB).findOne({
         where:{
             PersonId : parseInt(personid)
         }
     })
     if(!eliminarPerson) throw new Error('No existe dicha persona')
-    const responseDelete = await AppDataSource.getRepository(personal_DB).remove(eliminarPerson)
+    const responseDelete = await AppDataSource.getRepository(personalDB).remove(eliminarPerson)
     return responseDelete;
 }
 
