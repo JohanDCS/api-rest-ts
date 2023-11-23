@@ -18,15 +18,17 @@ const getPerson = async (personID: string) =>{
 }
 
 
-const insertPerson = async (item: Personal) =>{
+const insertPerson = async ({Nombres,Apellidos,TipoDocIdentidad,NumDoc}: Personal) =>{
     const Personal = new personalDB();
-    Personal.Nombres = item.Nombres;
-    Personal.Apellidos = item.Apellidos;
-    Personal.TipoDocumento = item.TipoDocIdentidad;
-    Personal.NumDOc = item.NumDeIdenti;
+    const Docexist = await AppDataSource.getRepository(personalDB).findOneBy({NumDoc})
+    if(Docexist){throw new Error("Este documento ya a sido registrado")}
+    Personal.Nombres = Nombres;
+    Personal.Apellidos = Apellidos;
+    Personal.TipoDocumento = TipoDocIdentidad;
+    Personal.NumDoc = NumDoc;
    
     
-    if(!item.TipoDocIdentidad)
+    if(!TipoDocIdentidad)
         throw new Error("Documento no valido")
 
     const responseInsert = await AppDataSource.getRepository(personalDB).save(Personal)
@@ -45,7 +47,7 @@ const updatePerson = async (id: string, item: Personal) =>{
     newPerson.Nombres = item.Nombres;
     newPerson.Apellidos = item.Apellidos;
     newPerson.TipoDocumento = item.TipoDocIdentidad;
-    newPerson.NumDOc = item.NumDeIdenti;
+    newPerson.NumDoc = item.NumDoc;
 
     if(!item.TipoDocIdentidad)
         throw new Error("Documento no valido")

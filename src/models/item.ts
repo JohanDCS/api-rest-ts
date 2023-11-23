@@ -20,6 +20,6 @@ export class personalDB{
 
     TipoDocumento: tipodoc;
 
-    @Column({nullable:false, length: '18', type: 'varchar'})
-    NumDOc: string;
+    @Column({nullable:false, type: 'int'})
+    NumDoc: number;
 }

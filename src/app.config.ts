@@ -3,11 +3,11 @@ import { personalDB } from "./models/item";
 
 export const AppDataSource = new DataSource({
     type: "mysql",
-    host: "localhost",
-    port: 3306,
-    username: "root",
-    password: "root",
-    database: "asistencia",
+    host: process.env.DB_HOST,
+    port: 3306||process.env.DB_PORT,
+    username: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.DB_NAME,
     synchronize: true,
     logging: false,
     entities: [personalDB],
