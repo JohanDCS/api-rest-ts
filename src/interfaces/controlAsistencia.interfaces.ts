@@ -1,5 +1,7 @@
 export interface Horario{
     Turno: string;
     HoraComienzo: string;
-    HoraSalida: string
+    HoraSalida: string;
+    FechaInicio: Date;
+    FechaFinal: Date
 }
