@@ -1,15 +1,17 @@
 import { AppDataSource } from "../app.config"
-import { Personal } from "../interfaces/personal.interface"
-import { personalDB } from "../models/item";
+import { Persona } from "../interfaces/persona.interface"
+import { tipoUser } from "../interfaces/usuario.interfaces";
+import { personaDB } from "../models/persona.models";
+import { UsuarioDB } from "../models/usuario.models";
 
 
-const getPersons = async () =>{
-    const responsePersons = await AppDataSource.getRepository(personalDB).find();
+const getUsers = async () =>{
+    const responsePersons = await AppDataSource.getRepository(personaDB).find();
     return responsePersons;
 }
 
-const getPerson = async (personID: string) =>{
-    const responsePerson = await AppDataSource.getRepository(personalDB).findOne({
+const getUser = async (personID: string) =>{
+    const responsePerson = await AppDataSource.getRepository(personaDB).findOne({
         where: {
             PersonId : parseInt(personID)
         }
@@ -18,26 +20,31 @@ const getPerson = async (personID: string) =>{
 }
 
 
-const insertPerson = async ({Nombres,Apellidos,TipoDocIdentidad,NumDoc}: Personal) =>{
-    const Personal = new personalDB();
-    const Docexist = await AppDataSource.getRepository(personalDB).findOneBy({NumDoc})
+const insertUser = async ({Nombres,Apellidos,TipoDocIdentidad, NumDoc, NomCargo, TipoCargo, TipoUsuario: TipoUsuario, password}: Persona) =>{
+    const Docexist = await AppDataSource.getRepository(UsuarioDB).findOneBy({NumDoc})
+    const Persona = new personaDB();
     if(Docexist){throw new Error("Este documento ya a sido registrado")}
-    Personal.Nombres = Nombres;
-    Personal.Apellidos = Apellidos;
-    Personal.TipoDocumento = TipoDocIdentidad;
-    Personal.NumDoc = NumDoc;
+    Persona.Nombres = Nombres;
+    Persona.Apellidos = Apellidos;
+    Persona.TipoDocumento = TipoDocIdentidad;
+    
+    const Usuario = new UsuarioDB();
+    //Usuario.TipoUsuario = tipoUser;
+    Usuario.NumDoc = NumDoc;
+    Usuario.password = password;
+
    
     
     if(!TipoDocIdentidad)
         throw new Error("Documento no valido")
 
-    const responseInsert = await AppDataSource.getRepository(personalDB).save(Personal)
+    const responseInsert = await AppDataSource.getRepository(personaDB).save(Persona)
     return responseInsert;
 
 }
 
-const updatePerson = async (id: string, item: Personal) =>{
-    const newPerson = await AppDataSource.getRepository(personalDB).findOne({
+const updateUser = async (id: string, item: Persona) =>{
+    const newPerson = await AppDataSource.getRepository(personaDB).findOne({
         where: {
             PersonId : parseInt(id)
         }
@@ -47,25 +54,24 @@ const updatePerson = async (id: string, item: Personal) =>{
     newPerson.Nombres = item.Nombres;
     newPerson.Apellidos = item.Apellidos;
     newPerson.TipoDocumento = item.TipoDocIdentidad;
-    newPerson.NumDoc = item.NumDoc;
 
     if(!item.TipoDocIdentidad)
         throw new Error("Documento no valido")
 
-    const responseInsert = await AppDataSource.getRepository(personalDB).save(newPerson)
+    const responseInsert = await AppDataSource.getRepository(personaDB).save(newPerson)
     return responseInsert;
 
 }
 
-const deletePerson = async (personid:string) =>{
-    const eliminarPerson = await AppDataSource.getRepository(personalDB).findOne({
+const deleteUser = async (personid:string) =>{
+    const eliminarPerson = await AppDataSource.getRepository(personaDB).findOne({
         where:{
             PersonId : parseInt(personid)
         }
     })
     if(!eliminarPerson) throw new Error('No existe dicha persona')
-    const responseDelete = await AppDataSource.getRepository(personalDB).remove(eliminarPerson)
+    const responseDelete = await AppDataSource.getRepository(personaDB).remove(eliminarPerson)
     return responseDelete;
 }
 
-export {insertPerson, updatePerson, getPerson, getPersons, deletePerson}
+export {insertUser, updateUser, getUser, getUsers, deleteUser}

@@ -1,5 +1,11 @@
 import { DataSource } from "typeorm";
-import { personalDB } from "./models/item";
+import { personaDB } from "./models/persona.models";
+import { UsuarioDB } from "./models/usuario.models";
+import { CargoDB } from "./models/cargo.models";
+import { TardanzaDB } from "./models/tardanza.models";
+import { AsistenciaDB } from "./models/asistencia.models";
+import { FaltasDB } from "./models/faltas.models";
+import { ControlAsistenciaDB } from "./models/controlAsistencia.models";
 
 export const AppDataSource = new DataSource({
     type: "mysql",
@@ -10,7 +16,7 @@ export const AppDataSource = new DataSource({
     database: process.env.DB_NAME,
     synchronize: true,
     logging: false,
-    entities: [personalDB],
+    entities: [personaDB, UsuarioDB, CargoDB, TardanzaDB, AsistenciaDB, FaltasDB, ControlAsistenciaDB],
     subscribers: [],
     migrations: [],
 })

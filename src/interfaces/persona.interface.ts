@@ -1,8 +1,10 @@
-export interface Personal {
+import { TipoCargo } from "./cargo.interfaces";
+import { Usuario } from "./usuario.interfaces";
+
+export interface Persona extends TipoCargo, Usuario {
     Nombres: string;
     Apellidos: string;
     TipoDocIdentidad: tipodoc;
-    NumDoc: number;
 }
 
 export enum tipodoc{ 

@@ -1,8 +1,9 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
-import { tipodoc } from "../interfaces/personal.interface";
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { tipodoc } from "../interfaces/persona.interface";
+import { UsuarioDB } from "./usuario.models";
 
 @Entity()
-export class personalDB{
+export class personaDB{
     @PrimaryGeneratedColumn('increment')
     PersonId: number;
 
@@ -20,6 +21,6 @@ export class personalDB{
 
     TipoDocumento: tipodoc;
 
-    @Column({nullable:false, type: 'int'})
-    NumDoc: number;
+    @OneToOne(() => UsuarioDB, usuario => usuario.persona)
+    usuario: UsuarioDB;
 }
