@@ -1,6 +1,7 @@
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { tipodoc } from "../interfaces/persona.interface";
 import { UsuarioDB } from "./usuario.models";
+import { tipoCargo } from "../interfaces/cargo.interfaces";
 
 @Entity()
 export class personaDB{
@@ -18,9 +19,15 @@ export class personaDB{
         enum: tipodoc,
         default: tipodoc.DNI
     })
-
     TipoDocumento: tipodoc;
 
-    @OneToOne(() => UsuarioDB, usuario => usuario.persona)
+    @Column({
+        type: 'enum',
+        enum: tipoCargo
+    })
+    TipoCargo: tipoCargo;
+    
+    @OneToOne(() => UsuarioDB, usuario => usuario.persona, {cascade: true})
+    @JoinColumn({name: 'userId'})
     usuario: UsuarioDB;
 }

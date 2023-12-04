@@ -1,4 +1,4 @@
-import { type NextFunction, type Request, type Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { verifyToken } from '../utils/jwt.handle';
 import { type JwtPayload } from 'jsonwebtoken';
 

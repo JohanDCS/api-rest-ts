@@ -1,5 +1,4 @@
 export interface TipoCargo{
-    NomCargo: string;
     TipoCargo: tipoCargo;
 }
 

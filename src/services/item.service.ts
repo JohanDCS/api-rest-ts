@@ -20,7 +20,7 @@ const getUser = async (personID: string) =>{
 }
 
 
-const insertUser = async ({Nombres,Apellidos,TipoDocIdentidad, NumDoc, NomCargo, TipoCargo, TipoUsuario: TipoUsuario, password}: Persona) =>{
+const insertUser = async ({Nombres,Apellidos,TipoDocIdentidad, NumDoc, TipoCargo, TipoUsuario: TipoUsuario, password}: Persona) =>{
     const Docexist = await AppDataSource.getRepository(UsuarioDB).findOneBy({NumDoc})
     const Persona = new personaDB();
     if(Docexist){throw new Error("Este documento ya a sido registrado")}
