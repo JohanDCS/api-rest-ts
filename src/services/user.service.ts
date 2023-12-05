@@ -5,6 +5,40 @@ import { personaDB } from "../models/persona.models"
 import { UsuarioDB } from "../models/usuario.models"
 import { encrypt, verified } from "../utils/bcrypt.handle"
 import { generateToken } from "../utils/jwt.handle";
+import { PersonActualizada } from "../interfaces/personaActualizada.interface";
+
+const GetUsers = async () =>{
+    const responsUser = await AppDataSource.getRepository(UsuarioDB).find({
+        relations: {
+            persona: true
+        }
+    });
+    return responsUser;
+}
+
+const UpdateUser = async (id:string,{
+    Nombres,
+    Apellidos,
+    TipoCargo
+}: PersonActualizada) => {
+    try{
+        const newPerson = await AppDataSource.getRepository(personaDB).findOne({
+            where: {
+                PersonId : parseInt(id)
+            }
+        })
+        if(!newPerson) throw new Error ("Persona no encontrada");
+
+        newPerson.Nombres = Nombres;
+        newPerson.Apellidos = Apellidos;
+        newPerson.TipoCargo = TipoCargo;
+
+        const responseInsertUser = await AppDataSource.getRepository(personaDB).save(newPerson)
+        return responseInsertUser;
+    }catch(err: any){
+        throw new Error(err.message);   
+    }
+}
 
 const userRegister = async ({
     Nombres, 
@@ -77,4 +111,4 @@ const userLogin = async ({NumDoc, password}: Auth) => {
     }
 }
 
-export { userRegister, userLogin }
+export { userRegister, userLogin, GetUsers, UpdateUser}

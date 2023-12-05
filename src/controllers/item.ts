@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { handleHTTP } from "../utils/error.handle";
-import { deleteUser, getUser, getUsers, insertUser, updateUser } from "../services/item.service";
+import { deleteUser, getUser, insertUser, updateUser } from "../services/item.service";
 import { checkEnumTipoDoc, tipodoc } from "../interfaces/persona.interface";
 
 const getItem = async (req: Request, res: Response)=> {
@@ -10,15 +10,6 @@ const getItem = async (req: Request, res: Response)=> {
         return res.status(200).json(responsePerson)
     } catch (error) {
         handleHTTP(res, 'ERROR_GET_ITEM');
-    }
-};
-
-const getItems = async (req : Request, res: Response)=>{
-    try {
-        const responsePersons = await getUsers();
-        res.status(200).json(responsePersons);
-    } catch (error) {
-        handleHTTP(res, 'ERROR_GET_ITEMS')
     }
 };
 
@@ -63,4 +54,4 @@ const deleteItem = async (req: Request, res: Response)=>{
     }
 };
 
-export {getItem,getItems,updateItem,postItem,deleteItem};
+export {getItem,updateItem,postItem,deleteItem};
