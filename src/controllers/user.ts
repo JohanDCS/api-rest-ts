@@ -25,18 +25,20 @@ const PostUser = async (req: Request, res: Response) => {
         })
 
         return res.status(200).json({message: "usuario agregado correctamente"});
-    }catch(err){
-        handleHTTP(res, "Error al insertar el usuario", err);
+    }catch(err: any){
+        handleHTTP(res, "Error al insertar el usuario", err.message);
     }
 }
 
 const LoginUser = async (req: Request, res: Response) => {
     try{
         const {
+            codeEmpresa,
             NumDoc,
             password
         } = req.body 
         const response = await userLogin({
+            codeEmpresa,
             NumDoc,
             password
         })

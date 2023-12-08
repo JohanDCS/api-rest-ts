@@ -5,6 +5,8 @@ import { personaDB } from "../models/persona.models"
 import { UsuarioDB } from "../models/usuario.models"
 import { encrypt, verified } from "../utils/bcrypt.handle"
 import { generateToken } from "../utils/jwt.handle";
+import { AuthCode } from "../interfaces/authCode.interface";
+import { EmpresaDb } from "../models/empresa.models";
 
 const userRegister = async ({
     Nombres, 
@@ -44,8 +46,18 @@ const userRegister = async ({
     }
 }
 
-const userLogin = async ({NumDoc, password}: Auth) => {
+const userLogin = async ({codeEmpresa, NumDoc, password}: AuthCode) => {
     try{
+        if (!codeEmpresa) {
+            throw new Error("El Código de empresa es obligatorio");
+        }
+        const code = await AppDataSource.getRepository(EmpresaDb).findOne({
+            where: {
+                codeEmpresa
+            }
+        })
+        if(!code || code === null) throw new Error("Token Invalido");
+
         const user = await AppDataSource.getRepository(UsuarioDB).findOne({
             where: {
                 NumDoc,
@@ -55,7 +67,6 @@ const userLogin = async ({NumDoc, password}: Auth) => {
             }
             
         });
-        console.log(user);
         if(!user) throw new Error("Este usuario no existe"); 
         
         const passHash = user.password
@@ -64,6 +75,7 @@ const userLogin = async ({NumDoc, password}: Auth) => {
         if(!isCorrect) throw new Error("Contraseña incorrecta");
         
         const data = {
+            tokenData: code.codeEmpresa,
             numdocument: user.NumDoc,
             nombres: user.persona.Nombres,
             apellidos: user.persona.Apellidos,

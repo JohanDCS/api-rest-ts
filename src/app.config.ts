@@ -6,6 +6,7 @@ import { TardanzaDB } from "./models/tardanza.models";
 import { AsistenciaDB } from "./models/asistencia.models";
 import { FaltasDB } from "./models/faltas.models";
 import { ControlAsistenciaDB } from "./models/controlAsistencia.models";
+import { EmpresaDb } from "./models/empresa.models";
 
 export const AppDataSource = new DataSource({
     type: "mysql",
@@ -16,7 +17,7 @@ export const AppDataSource = new DataSource({
     database: process.env.DB_NAME,
     synchronize: true,
     logging: false,
-    entities: [personaDB, UsuarioDB, CargoDB, TardanzaDB, AsistenciaDB, FaltasDB, ControlAsistenciaDB],
+    entities: [personaDB, UsuarioDB, CargoDB, TardanzaDB, AsistenciaDB, FaltasDB, ControlAsistenciaDB, EmpresaDb],
     subscribers: [],
     migrations: [],
 })
