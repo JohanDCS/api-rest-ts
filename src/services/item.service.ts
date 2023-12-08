@@ -1,14 +1,10 @@
 import { AppDataSource } from "../app.config"
 import { Persona } from "../interfaces/persona.interface"
-import { tipoUser } from "../interfaces/usuario.interfaces";
 import { personaDB } from "../models/persona.models";
 import { UsuarioDB } from "../models/usuario.models";
 
 
-const getUsers = async () =>{
-    const responsePersons = await AppDataSource.getRepository(personaDB).find();
-    return responsePersons;
-}
+
 
 const getUser = async (personID: string) =>{
     const responsePerson = await AppDataSource.getRepository(personaDB).findOne({
@@ -74,4 +70,4 @@ const deleteUser = async (personid:string) =>{
     return responseDelete;
 }
 
-export {insertUser, updateUser, getUser, getUsers, deleteUser}
+export {insertUser, updateUser, getUser, deleteUser}

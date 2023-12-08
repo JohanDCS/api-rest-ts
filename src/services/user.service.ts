@@ -5,8 +5,6 @@ import { personaDB } from "../models/persona.models"
 import { UsuarioDB } from "../models/usuario.models"
 import { encrypt, verified } from "../utils/bcrypt.handle"
 import { generateToken } from "../utils/jwt.handle";
-import { AuthCode } from "../interfaces/authCode.interface";
-import { EmpresaDb } from "../models/empresa.models";
 
 const userRegister = async ({
     Nombres, 
@@ -89,4 +87,4 @@ const userLogin = async ({codeEmpresa, NumDoc, password}: AuthCode) => {
     }
 }
 
-export { userRegister, userLogin }
+export { userRegister, userLogin, GetUsers, UpdateUser}
