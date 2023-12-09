@@ -51,9 +51,9 @@ const getUsers = async (req : Request, res: Response)=> {
     try {
         const responseUsers = await GetUsers();
         return res.status(200).json(responseUsers);
-        } catch (error) {
-            handleHTTP(res, 'ERROR_GET_USERS')
-     }
+        } catch (err: any) {
+            handleHTTP(res, 'ERROR_GET_USERS', err.message)
+    }
 };
 
 const updateUser = async (req : Request, res: Response)=>{
@@ -64,9 +64,8 @@ const updateUser = async (req : Request, res: Response)=>{
         const responseUpdate = await UpdateUser( id, {Nombres: Nombres, Apellidos: Apellidos, TipoCargo: TipoCargo});
         if(!responseUpdate) return res.json({message: 'Los datos no lograron guardarse'});
         return res.status(200).json({message:'Guardado con exito'});
-    } catch (error) {
-        console.log(error);
-        handleHTTP(res , 'ERROR_UPDATE_ITEM')
+    } catch (err: any) {
+        handleHTTP(res , 'ERROR_UPDATE_ITEM', err.message)
     }
 };
 

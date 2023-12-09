@@ -5,6 +5,9 @@ import { personaDB } from "../models/persona.models"
 import { UsuarioDB } from "../models/usuario.models"
 import { encrypt, verified } from "../utils/bcrypt.handle"
 import { generateToken } from "../utils/jwt.handle";
+import { AuthCode } from "../interfaces/authCode.interface";
+import { EmpresaDb } from "../models/empresa.models";
+import { PersonActualizada } from "../interfaces/personaActualizada.interface";
 
 const userRegister = async ({
     Nombres, 
@@ -82,6 +85,29 @@ const userLogin = async ({codeEmpresa, NumDoc, password}: AuthCode) => {
         
         const token = generateToken(JSON.stringify(data))
         return token; 
+    }catch(err: any){
+        throw new Error(err.message);
+    }
+}
+
+const GetUsers = async () => {
+    try{
+        const response = await AppDataSource.getRepository(UsuarioDB).find();
+        return response
+    }catch(err: any){
+        throw new Error(err.message);
+    }
+}
+
+const UpdateUser = async (id: string, {Nombres, Apellidos, TipoCargo}: PersonActualizada) =>{
+    try{
+        const newUser = new personaDB();
+        newUser.Nombres = Nombres;
+        newUser.Apellidos = Apellidos;
+        newUser.TipoCargo = TipoCargo
+
+        const response = await AppDataSource.getRepository(personaDB).save(newUser);
+        return response
     }catch(err: any){
         throw new Error(err.message);
     }
