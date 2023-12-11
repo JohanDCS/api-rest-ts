@@ -1,13 +1,13 @@
-import { type Auth } from "../interfaces/auth.interface";
 import { AppDataSource } from "../app.config"
 import { type Persona } from "../interfaces/persona.interface"
-import { personaDB } from "../models/persona.models"
-import { UsuarioDB } from "../models/usuario.models"
+import { personaDB } from "../models/persona"
+import { UsuarioDB } from "../models/usuario"
 import { encrypt, verified } from "../utils/bcrypt.handle"
 import { generateToken } from "../utils/jwt.handle";
 import { AuthCode } from "../interfaces/authCode.interface";
-import { EmpresaDb } from "../models/empresa.models";
+import { EmpresaDb } from "../models/empresa";
 import { PersonActualizada } from "../interfaces/personaActualizada.interface";
+import { TurnoDB } from "../models/turno";
 
 const userRegister = async ({
     Nombres, 
@@ -16,7 +16,8 @@ const userRegister = async ({
     password, 
     TipoCargo, 
     TipoDocIdentidad, 
-    TipoUsuario
+    TipoUsuario,
+    turno
 }: Persona) => {
     try{
         const checkUser = await AppDataSource.getRepository(UsuarioDB).findOneBy({
@@ -25,6 +26,13 @@ const userRegister = async ({
     
         if(checkUser) throw new Error('Este usuario ya ha sido registrado')
     
+        const turnoObj = await AppDataSource.getRepository(TurnoDB).findOne({
+            where: {
+                turnoId: turno
+            }
+        })
+        if(!turnoObj) throw new Error('Turno no encontrado')
+
         const newUser = new UsuarioDB()
         newUser.NumDoc = NumDoc;
     
@@ -39,6 +47,7 @@ const userRegister = async ({
         newPersona.TipoDocumento = TipoDocIdentidad;
         newPersona.TipoCargo = TipoCargo;
         newPersona.usuario = newUser;
+        newPersona.turno = turnoObj;
     
         const responsUser = await AppDataSource.getRepository(personaDB).save(newPersona);
         return responsUser;
@@ -92,7 +101,15 @@ const userLogin = async ({codeEmpresa, NumDoc, password}: AuthCode) => {
 
 const GetUsers = async () => {
     try{
-        const response = await AppDataSource.getRepository(UsuarioDB).find();
+        const response = await AppDataSource.getRepository(UsuarioDB).find({
+            relations: {
+                persona: {
+                    turno: {
+                        horario: true,
+                    }
+                }
+            }
+        });
         return response
     }catch(err: any){
         throw new Error(err.message);

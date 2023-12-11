@@ -1,12 +1,14 @@
 import { DataSource } from "typeorm";
-import { personaDB } from "./models/persona.models";
-import { UsuarioDB } from "./models/usuario.models";
-import { CargoDB } from "./models/cargo.models";
-import { TardanzaDB } from "./models/tardanza.models";
-import { AsistenciaDB } from "./models/asistencia.models";
-import { FaltasDB } from "./models/faltas.models";
-import { ControlAsistenciaDB } from "./models/controlAsistencia.models";
-import { EmpresaDb } from "./models/empresa.models";
+import { personaDB } from "./models/persona";
+import { UsuarioDB } from "./models/usuario";
+import { CargoDB } from "./models/cargo";
+import { AsistenciaDB } from "./models/asistencia";
+import { ControlAsistenciaDB } from "./models/controlAsistencia";
+import { EmpresaDb } from "./models/empresa";
+import { FaltasDB } from "./models/faltas";
+import { TardanzaDB } from "./models/tardanza";
+import { TurnoDB } from "./models/turno";
+import { HorarioDB } from "./models/horarios";
 
 export const AppDataSource = new DataSource({
     type: "mysql",
@@ -17,7 +19,7 @@ export const AppDataSource = new DataSource({
     database: process.env.DB_NAME,
     synchronize: true,
     logging: false,
-    entities: [personaDB, UsuarioDB, CargoDB, TardanzaDB, AsistenciaDB, FaltasDB, ControlAsistenciaDB, EmpresaDb],
+    entities: [personaDB, UsuarioDB, CargoDB, TardanzaDB, AsistenciaDB, FaltasDB, ControlAsistenciaDB, EmpresaDb, TurnoDB, HorarioDB],
     subscribers: [],
     migrations: [],
 })

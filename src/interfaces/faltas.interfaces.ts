@@ -1,3 +1,3 @@
 export interface Faltas{
-    Fecha: Date;
+    Fechafaltas: Date;
 }

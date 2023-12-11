@@ -1,5 +1,5 @@
 import { Column, Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
-import { personaDB } from "./persona.models";
+import { personaDB } from "./persona";
 import { tipoUser } from "../interfaces/usuario.interfaces";
 
 @Entity()

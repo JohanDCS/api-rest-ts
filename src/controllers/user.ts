@@ -11,7 +11,8 @@ const PostUser = async (req: Request, res: Response) => {
             password, 
             TipoCargo, 
             TipoDocIdentidad, 
-            TipoUsuario 
+            TipoUsuario,
+            turno, 
         } = req.body
         const response = await userRegister({
             Nombres: Nombres, 
@@ -20,7 +21,8 @@ const PostUser = async (req: Request, res: Response) => {
             password: password,  
             TipoCargo: TipoCargo, 
             TipoDocIdentidad: TipoDocIdentidad, 
-            TipoUsuario: TipoUsuario
+            TipoUsuario: TipoUsuario,
+            turno: turno
         })
 
         return res.status(200).json({message: "usuario agregado correctamente"});

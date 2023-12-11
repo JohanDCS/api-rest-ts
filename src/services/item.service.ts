@@ -1,7 +1,7 @@
 import { AppDataSource } from "../app.config"
 import { Persona } from "../interfaces/persona.interface"
-import { personaDB } from "../models/persona.models";
-import { UsuarioDB } from "../models/usuario.models";
+import { personaDB } from "../models/persona";
+import { UsuarioDB } from "../models/usuario";
 
 
 

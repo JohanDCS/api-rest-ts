@@ -5,6 +5,7 @@ export interface Persona extends TipoCargo, Usuario {
     Nombres: string;
     Apellidos: string;
     TipoDocIdentidad: tipodoc;
+    turno: number;
 }
 
 export enum tipodoc{ 

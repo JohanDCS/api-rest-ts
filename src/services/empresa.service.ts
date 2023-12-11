@@ -1,6 +1,6 @@
 import { AppDataSource } from "../app.config";
 import { Empresa } from "../interfaces/empresa.interface";
-import { EmpresaDb } from "../models/empresa.models";
+import { EmpresaDb } from "../models/empresa";
 
 class EmpresaService{
     private static instance: EmpresaService;

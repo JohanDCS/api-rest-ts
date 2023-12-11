@@ -1,7 +1,7 @@
-export interface Horario{
-    Turno: string;
-    HoraComienzo: string;
-    HoraSalida: string;
-    FechaInicio: Date;
-    FechaFinal: Date
+import { Asistencia } from "./asistencia.interfaces";
+import { Faltas } from "./faltas.interfaces";
+import { Tardanza } from "./tardanza.interfaces";
+
+export interface ControlHorarios extends Tardanza, Faltas, Asistencia{
+    NumDoc: number;
 }

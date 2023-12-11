@@ -1,7 +1,8 @@
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { tipodoc } from "../interfaces/persona.interface";
-import { UsuarioDB } from "./usuario.models";
+import { UsuarioDB } from "./usuario";
 import { tipoCargo } from "../interfaces/cargo.interfaces";
+import { TurnoDB } from "./turno";
 
 @Entity()
 export class personaDB{
@@ -30,4 +31,8 @@ export class personaDB{
     @OneToOne(() => UsuarioDB, usuario => usuario.persona, {cascade: true})
     @JoinColumn({name: 'userId'})
     usuario: UsuarioDB;
+
+    @ManyToOne(()=> TurnoDB, turno => turno.persona)
+    @JoinColumn({name: 'personaId'})
+    turno: TurnoDB;
 }
