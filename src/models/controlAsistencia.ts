@@ -1,10 +1,11 @@
-import { Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { AsistenciaDB } from "./asistencia";
 import { FaltasDB } from "./faltas";
 import { TardanzaDB } from "./tardanza";
+import { UsuarioDB } from "./usuario";
 
 @Entity()
-export class ControlAsistenciaDB{
+export class ControlAsistenciaGeneralDB{
     @PrimaryGeneratedColumn("increment")
     IdControlAsis: number;
 
@@ -16,4 +17,7 @@ export class ControlAsistenciaDB{
 
     @OneToMany(() => TardanzaDB, tardanza => tardanza.control)
     tardanza: TardanzaDB[];
+
+    @OneToMany(() => UsuarioDB, usuario => usuario.controlAsistencia)
+    usuario: UsuarioDB[];
 }

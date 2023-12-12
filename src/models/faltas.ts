@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { ControlAsistenciaDB } from "./controlAsistencia";
+import { ControlAsistenciaGeneralDB } from "./controlAsistencia";
 
 @Entity()
 export class FaltasDB{
@@ -9,7 +9,7 @@ export class FaltasDB{
     @Column()
     fecha: Date
 
-    @ManyToOne(()=> ControlAsistenciaDB, control => control.faltas)
+    @ManyToOne(()=> ControlAsistenciaGeneralDB, control => control.faltas)
     @JoinColumn({name: 'IdControlAsis'})
-    control: ControlAsistenciaDB;
+    control: ControlAsistenciaGeneralDB;
 }

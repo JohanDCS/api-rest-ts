@@ -33,6 +33,6 @@ export class personaDB{
     usuario: UsuarioDB;
 
     @ManyToOne(()=> TurnoDB, turno => turno.persona)
-    @JoinColumn({name: 'personaId'})
+    @JoinColumn({name: 'turnoId'})
     turno: TurnoDB;
 }

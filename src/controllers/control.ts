@@ -32,6 +32,15 @@ class ControlController{
             
         }
     }
+    async GetControl(req: Request, res: Response){
+        try {
+            const response = await controlService.mostrarAsistencia()
+            return res.status(200).json(response)
+        } catch (err: any) {
+            console.log(err);
+            handleHTTP(res, "Error al mostrar la tabla", err.message);
+        }
+    }
 }
 
 export const controlController = ControlController.getInstance();

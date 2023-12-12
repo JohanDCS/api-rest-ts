@@ -1,7 +1,7 @@
 import { AppDataSource } from "../app.config";
 import { ControlHorarios } from "../interfaces/controlAsistencia.interfaces";
 import { AsistenciaDB } from "../models/asistencia";
-import { ControlAsistenciaDB } from "../models/controlAsistencia";
+import { ControlAsistenciaGeneralDB } from "../models/controlAsistencia";
 import { FaltasDB } from "../models/faltas";
 import { TardanzaDB } from "../models/tardanza";
 import { UsuarioDB } from "../models/usuario";
@@ -37,11 +37,12 @@ class ControlService{
         const newFalta = new FaltasDB();
         
         const turnoInicio = checkUser.persona.turno.horario.horaInicio.split(' ')[0];
+
         const turnoFin = checkUser.persona.turno.horario.horaFinal.split(' ')[0];
 
         const horaActual = horaformat();
-
-        if(horaActual >= turnoInicio && horaActual <= turnoFin) {
+        console.log(turnoInicio,turnoFin,horaActual)
+        if(horaActual > turnoInicio && horaActual < turnoFin) {
             
             newAsistencia.fecha = Fechaasistencia;
             newAsistencia.state = true;
@@ -56,19 +57,25 @@ class ControlService{
                 await AppDataSource.getRepository(TardanzaDB).save(newTardanza);
             }
 
-        }else if(turnoInicio < horaActual) {
-            
-        }else{  
+        }else if(turnoFin < horaActual) {
             newFalta.fecha = Fechafaltas;
             await AppDataSource.getRepository(FaltasDB).save(newFalta);
         }
-
-        const newControl = new ControlAsistenciaDB();
+        const newControl = new ControlAsistenciaGeneralDB();
         newControl.asistencia = [newAsistencia];
         newControl.faltas = [newFalta];
         newControl.tardanza = [newTardanza];
 
-        const response = await AppDataSource.getRepository(ControlAsistenciaDB).save(newControl); 
+        const response = await AppDataSource.getRepository(ControlAsistenciaGeneralDB).save(newControl); 
+        return response;
+    }
+    async mostrarAsistencia(){
+        const response = await AppDataSource.getRepository(ControlAsistenciaGeneralDB).find({
+            relations:{
+                asistencia: true,
+                usuario: true
+            }
+        })
         return response;
     }
 }

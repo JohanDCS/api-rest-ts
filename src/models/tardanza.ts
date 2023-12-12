@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { ControlAsistenciaDB } from "./controlAsistencia";
+import { ControlAsistenciaGeneralDB } from "./controlAsistencia";
 
 @Entity()
 export class TardanzaDB{
@@ -12,7 +12,7 @@ export class TardanzaDB{
     @Column()
     tiempoTardanza: string
 
-    @ManyToOne(()=> ControlAsistenciaDB, control => control.tardanza)
+    @ManyToOne(()=> ControlAsistenciaGeneralDB, control => control.tardanza)
     @JoinColumn({name: 'IdControlAsis'})
-    control: ControlAsistenciaDB;
+    control: ControlAsistenciaGeneralDB;
 }

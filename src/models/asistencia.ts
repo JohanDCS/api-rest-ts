@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { ControlAsistenciaDB } from "./controlAsistencia";
+import { ControlAsistenciaGeneralDB } from "./controlAsistencia";
 
 @Entity()
 export class AsistenciaDB{
@@ -15,8 +15,7 @@ export class AsistenciaDB{
     })
     state: boolean
 
-    @ManyToOne(()=> ControlAsistenciaDB, control => control.asistencia)
+    @ManyToOne(()=> ControlAsistenciaGeneralDB, control => control.asistencia)
     @JoinColumn({name: 'IdControlAsis'})
-    control: ControlAsistenciaDB;
-    
+    control: ControlAsistenciaGeneralDB;
 }
