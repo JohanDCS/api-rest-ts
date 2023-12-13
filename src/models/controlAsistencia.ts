@@ -1,4 +1,4 @@
-import { Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { AsistenciaDB } from "./asistencia";
 import { FaltasDB } from "./faltas";
 import { TardanzaDB } from "./tardanza";
@@ -18,6 +18,6 @@ export class ControlAsistenciaGeneralDB{
     @OneToMany(() => TardanzaDB, tardanza => tardanza.control)
     tardanza: TardanzaDB[];
 
-    @OneToMany(() => UsuarioDB, usuario => usuario.controlAsistencia)
+    @ManyToMany(() => UsuarioDB, usuario => usuario.controlAsistencia)
     usuario: UsuarioDB[];
 }

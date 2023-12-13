@@ -5,7 +5,7 @@ import { ControlAsistenciaGeneralDB } from "../models/controlAsistencia";
 import { FaltasDB } from "../models/faltas";
 import { TardanzaDB } from "../models/tardanza";
 import { UsuarioDB } from "../models/usuario";
-import { convertirHoraACadena24, horaformat, restarHoras } from "../utils/date.handle";
+import { horaformat, restarHoras } from "../utils/date.handle";
 
 
 class ControlService{
@@ -37,12 +37,11 @@ class ControlService{
         const newFalta = new FaltasDB();
         
         const turnoInicio = checkUser.persona.turno.horario.horaInicio.split(' ')[0];
-
         const turnoFin = checkUser.persona.turno.horario.horaFinal.split(' ')[0];
 
         const horaActual = horaformat();
-        console.log(turnoInicio,turnoFin,horaActual)
-        if(horaActual > turnoInicio && horaActual < turnoFin) {
+
+        if(horaActual >= turnoInicio && horaActual <= turnoFin) {
             
             newAsistencia.fecha = Fechaasistencia;
             newAsistencia.state = true;
@@ -51,7 +50,7 @@ class ControlService{
 
             if(turnoInicio < horaActual) {
                 const tardanza = restarHoras(horaActual, turnoInicio) 
-                console.log(tardanza);
+                console.log(horaActual, turnoInicio, tardanza);
                 newTardanza.fecha = Fechatardanza;
                 newTardanza.tiempoTardanza = tardanza;
                 await AppDataSource.getRepository(TardanzaDB).save(newTardanza);
@@ -61,22 +60,32 @@ class ControlService{
             newFalta.fecha = Fechafaltas;
             await AppDataSource.getRepository(FaltasDB).save(newFalta);
         }
+
         const newControl = new ControlAsistenciaGeneralDB();
         newControl.asistencia = [newAsistencia];
         newControl.faltas = [newFalta];
         newControl.tardanza = [newTardanza];
+        newControl.usuario = [checkUser]
 
         const response = await AppDataSource.getRepository(ControlAsistenciaGeneralDB).save(newControl); 
         return response;
     }
+
+
     async mostrarAsistencia(){
-        const response = await AppDataSource.getRepository(ControlAsistenciaGeneralDB).find({
-            relations:{
-                asistencia: true,
-                usuario: true
+        const response = await AppDataSource.getRepository(AsistenciaDB).find({
+            where: {
+                control: {
+                    usuario: true,
+                }
+            },
+            relations: {
+                control: {
+                    usuario: true,
+                }
             }
         })
-        return response;
+        return response
     }
 }
 

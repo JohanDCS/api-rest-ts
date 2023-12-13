@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { personaDB } from "./persona";
 import { tipoUser } from "../interfaces/usuario.interfaces";
 import { ControlAsistenciaGeneralDB } from "./controlAsistencia";
@@ -24,7 +24,7 @@ export class UsuarioDB{
     @OneToOne(() => personaDB, persona => persona.usuario)
     persona: personaDB;
 
-    @ManyToOne(() => ControlAsistenciaGeneralDB, controlAsistencia => controlAsistencia.usuario)
-    @JoinColumn({name: 'IdControlAsis'}) 
-    controlAsistencia: ControlAsistenciaGeneralDB;
+    @ManyToMany(() => ControlAsistenciaGeneralDB, controlAsistencia => controlAsistencia.usuario)
+    @JoinTable()
+    controlAsistencia: ControlAsistenciaGeneralDB[];
 }
