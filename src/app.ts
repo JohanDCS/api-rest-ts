@@ -10,8 +10,8 @@ app.use(cors());
 app.use(express.json());
 AppDataSource.initialize().then(async ()=>{
     turnoService.InsertTurno([
-        {denominacion: 'mañana', horainicio: '8:00 am', horafin: '15:00 pm'},
-        {denominacion: 'tarde', horainicio: '15:00 pm', horafin: '23:00 pm'},
+        {denominacion: 'mañana', horainicio: '9:00 am', horafin: '18:00 pm'},
+        {denominacion: 'tarde', horainicio: '17:00 pm', horafin: '21:00 pm'},
     ])
     console.log("corriendo base de datos")
 }).catch((error)=>{

@@ -41,12 +41,12 @@ class ControlService{
         const turnoInicio = checkUser.persona.turno.horario.horaInicio.split(' ')[0];
         const turnoFin = checkUser.persona.turno.horario.horaFinal.split(' ')[0];
 
-        const horaActual = horaformat(Fecha);
+        const horaActual = horaformat();
 
         if(horaActual >= turnoInicio && horaActual <= turnoFin) {
             
-            newAsistencia.fecha = FechaFormat(Fecha).toString();
-            newAsistencia.hora = horaformat(Fecha);
+            newAsistencia.fecha = FechaFormat().toString();
+            newAsistencia.hora = horaformat();
             newAsistencia.state = true;
 
             await AppDataSource.getRepository(AsistenciaDB).save(newAsistencia);
@@ -54,13 +54,13 @@ class ControlService{
             if(turnoInicio < horaActual) {
                 const tardanza = restarHoras(horaActual, turnoInicio) 
                 console.log(horaActual, turnoInicio, tardanza);
-                newTardanza.fecha = FechaFormat(Fecha).toString();
+                newTardanza.fecha = FechaFormat().toString();
                 newTardanza.tiempoTardanza = tardanza;
                 await AppDataSource.getRepository(TardanzaDB).save(newTardanza);
             }
 
         }else if(turnoFin < horaActual) {
-            newFalta.fecha = FechaFormat(Fecha).toString();
+            newFalta.fecha = FechaFormat().toString();
             await AppDataSource.getRepository(FaltasDB).save(newFalta);
         }
 

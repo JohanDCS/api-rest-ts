@@ -90,6 +90,7 @@ const userLogin = async ({codeEmpresa, NumDoc, password}: AuthCode) => {
             nombres: user.persona.Nombres,
             apellidos: user.persona.Apellidos,
             cargo: user.persona.TipoCargo,
+            tipoUsuario: user.TipoUsuario,
         }
         
         const token = generateToken(JSON.stringify(data))
@@ -110,7 +111,11 @@ const GetUsers = async () => {
                 }
             }
         });
-        return response
+        return {
+            recordsFiltered: response.length,
+            recordsTotal:response.length,
+            data: response
+        }
     }catch(err: any){
         throw new Error(err.message);
     }
