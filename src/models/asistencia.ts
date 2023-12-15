@@ -9,6 +9,9 @@ export class AsistenciaDB{
     @Column()
     fecha: Date;
 
+    @Column()
+    hora: number;
+
     @Column({
         type: 'bool',
         default: false

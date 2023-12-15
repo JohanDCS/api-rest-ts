@@ -3,6 +3,7 @@ import { ControlHorarios } from "../interfaces/controlAsistencia.interfaces";
 import { AsistenciaDB } from "../models/asistencia";
 import { ControlAsistenciaGeneralDB } from "../models/controlAsistencia";
 import { FaltasDB } from "../models/faltas";
+import { HorarioDB } from "../models/horarios";
 import { TardanzaDB } from "../models/tardanza";
 import { UsuarioDB } from "../models/usuario";
 import { horaformat, restarHoras } from "../utils/date.handle";
@@ -81,11 +82,28 @@ class ControlService{
             },
             relations: {
                 control: {
-                    usuario: true,
+                    usuario: {
+                        persona:true
+                    },
                 }
             }
         })
-        return response
+        return {
+            recordsFiltered: response.length,
+            recordsTotal:response.length,
+            data: response
+        }
+    }
+
+    async ObtenerHora(Hora: Date): Promise<string>{
+        const horas = Hora.getHours();
+        const minutos = Hora.getMinutes();
+
+        const HoraFormateada = `${this.agregarCeroDelante(horas)}:${this.agregarCeroDelante(minutos)}`;
+        return HoraFormateada;
+    }
+    async agregarCeroDelante(valor: number): Promise<string> {
+        return valor < 10? `O${valor}` : valor.toString();
     }
 }
 

@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { handleHTTP } from "../utils/error.handle";
 import { controlService } from "../services/control.service";
 
+
 class ControlController{
     private static instance: ControlController
     public static getInstance(): ControlController{
@@ -17,13 +18,17 @@ class ControlController{
                 NumDoc,
                 Fechaasistencia,
                 Fechafaltas, 
-                Fechatardanza
+                Fechatardanza,
+                /*Hora*/
             } = req.body;
+            /*const HoraFormateada = await controlService.ObtenerHora(new Date(Hora));*/
+
             const response = await controlService.insertControl({
                 NumDoc: NumDoc, 
                 Fechaasistencia: Fechaasistencia, 
                 Fechafaltas: Fechafaltas, 
-                Fechatardanza: Fechatardanza
+                Fechatardanza: Fechatardanza,
+                /*Hora: HoraFormateada*/
             })
             return res.status(200).json({message: "Asistencia confirmada"});
         }catch(err: any){
