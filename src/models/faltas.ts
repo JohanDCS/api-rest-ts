@@ -7,7 +7,7 @@ export class FaltasDB{
     faltaID: number
 
     @Column()
-    fecha: Date
+    fecha: string
 
     @ManyToOne(()=> ControlAsistenciaGeneralDB, control => control.faltas)
     @JoinColumn({name: 'IdControlAsis'})

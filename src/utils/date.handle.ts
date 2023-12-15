@@ -1,11 +1,19 @@
-const horaformat = () => {
-    // Obtener la fecha y hora actual
-    const fechaActual = new Date();
-
-    const fechaformat = fechaActual.toTimeString().split(' ')[0] 
+const horaformat = (fechaActual:Date) => {
+    const horaActual = new Date(fechaActual)
+    console.log(horaActual);
+    const fechaformat = horaActual.toTimeString().split(' ')[0] 
     // Formatear la hora según tus necesidades
     console.log(fechaformat);
     return fechaformat;
+}
+
+const FechaFormat= (fechaActual:Date) => {
+    const horaActual = new Date(fechaActual)
+    const fecha = horaActual.toISOString().split('T')[0];
+    const fechaFormat = fecha.split('-');
+    const fechaSpanish = fechaFormat[2] + '/' + fechaFormat[1] + '/' + fechaFormat[0];
+    console.log(fechaSpanish,fecha)
+    return fechaSpanish;
 }
 
 const restarHoras = (hora1: string, hora2: string): string => {
@@ -27,4 +35,4 @@ const restarHoras = (hora1: string, hora2: string): string => {
     return `${horas}:${minutos}:${segundos}`;
 }
 
-export { horaformat, restarHoras }
+export { horaformat, FechaFormat, restarHoras }

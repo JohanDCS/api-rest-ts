@@ -7,7 +7,7 @@ export class TardanzaDB{
     tardanzaId: number
 
     @Column()
-    fecha: Date
+    fecha: string
 
     @Column()
     tiempoTardanza: string

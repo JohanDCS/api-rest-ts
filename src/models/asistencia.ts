@@ -7,10 +7,10 @@ export class AsistenciaDB{
     IdAsistencia: number;
 
     @Column()
-    fecha: Date;
+    fecha: string;
 
     @Column()
-    hora: number;
+    hora: string;
 
     @Column({
         type: 'bool',

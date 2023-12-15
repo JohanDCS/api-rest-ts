@@ -15,7 +15,7 @@ export class UsuarioDB{
     })
     TipoUsuario: tipoUser;
 
-    @Column({nullable:false})
+    @Column({nullable:false, type: 'bigint'})
     NumDoc: number
 
     @Column({nullable:false})

@@ -10,7 +10,7 @@ export enum tipoUser{
 }
 
 export const checkEnumTipoUser = (text: string):boolean => {
-    if (text.toLocaleLowerCase() != "Trabajador" &&
+    if (text.toLocaleLowerCase() != "Usuario" &&
     text.toLocaleLowerCase() != "Administrador") return false;
     return true;
 }

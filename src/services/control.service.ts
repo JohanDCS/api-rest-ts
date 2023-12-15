@@ -6,7 +6,7 @@ import { FaltasDB } from "../models/faltas";
 import { HorarioDB } from "../models/horarios";
 import { TardanzaDB } from "../models/tardanza";
 import { UsuarioDB } from "../models/usuario";
-import { horaformat, restarHoras } from "../utils/date.handle";
+import { FechaFormat, horaformat, restarHoras } from "../utils/date.handle";
 
 
 class ControlService{
@@ -18,7 +18,7 @@ class ControlService{
         return this.instance;
     }
 
-    async insertControl({NumDoc, Fechaasistencia, Fechafaltas, Fechatardanza}: ControlHorarios){
+    async insertControl({NumDoc, Fecha}: ControlHorarios){
         const checkUser = await AppDataSource.getRepository(UsuarioDB).findOne({
             where: {
                 NumDoc: NumDoc
@@ -32,6 +32,7 @@ class ControlService{
             }
         })
         if(!checkUser) throw new Error('Este trabajador no existe');
+        console.log(Fecha)
         
         const newAsistencia = new AsistenciaDB();
         const newTardanza = new TardanzaDB();
@@ -40,11 +41,12 @@ class ControlService{
         const turnoInicio = checkUser.persona.turno.horario.horaInicio.split(' ')[0];
         const turnoFin = checkUser.persona.turno.horario.horaFinal.split(' ')[0];
 
-        const horaActual = horaformat();
+        const horaActual = horaformat(Fecha);
 
         if(horaActual >= turnoInicio && horaActual <= turnoFin) {
             
-            newAsistencia.fecha = Fechaasistencia;
+            newAsistencia.fecha = FechaFormat(Fecha).toString();
+            newAsistencia.hora = horaformat(Fecha);
             newAsistencia.state = true;
 
             await AppDataSource.getRepository(AsistenciaDB).save(newAsistencia);
@@ -52,13 +54,13 @@ class ControlService{
             if(turnoInicio < horaActual) {
                 const tardanza = restarHoras(horaActual, turnoInicio) 
                 console.log(horaActual, turnoInicio, tardanza);
-                newTardanza.fecha = Fechatardanza;
+                newTardanza.fecha = FechaFormat(Fecha).toString();
                 newTardanza.tiempoTardanza = tardanza;
                 await AppDataSource.getRepository(TardanzaDB).save(newTardanza);
             }
 
         }else if(turnoFin < horaActual) {
-            newFalta.fecha = Fechafaltas;
+            newFalta.fecha = FechaFormat(Fecha).toString();
             await AppDataSource.getRepository(FaltasDB).save(newFalta);
         }
 
@@ -93,17 +95,6 @@ class ControlService{
             recordsTotal:response.length,
             data: response
         }
-    }
-
-    async ObtenerHora(Hora: Date): Promise<string>{
-        const horas = Hora.getHours();
-        const minutos = Hora.getMinutes();
-
-        const HoraFormateada = `${this.agregarCeroDelante(horas)}:${this.agregarCeroDelante(minutos)}`;
-        return HoraFormateada;
-    }
-    async agregarCeroDelante(valor: number): Promise<string> {
-        return valor < 10? `O${valor}` : valor.toString();
     }
 }
 

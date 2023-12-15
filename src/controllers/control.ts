@@ -16,19 +16,13 @@ class ControlController{
         try{
             const {
                 NumDoc,
-                Fechaasistencia,
-                Fechafaltas, 
-                Fechatardanza,
-                /*Hora*/
+                Fecha
             } = req.body;
             /*const HoraFormateada = await controlService.ObtenerHora(new Date(Hora));*/
 
             const response = await controlService.insertControl({
-                NumDoc: NumDoc, 
-                Fechaasistencia: Fechaasistencia, 
-                Fechafaltas: Fechafaltas, 
-                Fechatardanza: Fechatardanza,
-                /*Hora: HoraFormateada*/
+                NumDoc: NumDoc,
+                Fecha: Fecha
             })
             return res.status(200).json({message: "Asistencia confirmada"});
         }catch(err: any){
