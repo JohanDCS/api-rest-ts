@@ -8,11 +8,10 @@ const horaformat = () => {
 
 const FechaFormat= () => {
     const fechaactual = new Date()
-    const fecha = fechaactual.toISOString().split('T')[0];
-    const fechaFormat = fecha.split('-');
-    const fechaSpanish = fechaFormat[2] + '/' + fechaFormat[1] + '/' + fechaFormat[0];
+    const opcionesFecha = { day: '2-digit', month: '2-digit', year: 'numeric' } as const;
+    const fechaLocal = fechaactual.toLocaleDateString('es-ES', opcionesFecha);
 
-    return fechaSpanish;
+    return fechaLocal;
 }
 
 const restarHoras = (hora1: string, hora2: string): string => {

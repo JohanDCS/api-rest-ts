@@ -25,7 +25,7 @@ const checkJwt = (req: Request, res: Response, next: NextFunction) => {
 		req.body.usertoken = decoded;
 		next();
 	} catch (e) {
-		res.status(400);
+		res.status(401);
 		res.json({ message: 'INVALID_SESSION' });
 	}
 };

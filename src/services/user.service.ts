@@ -93,8 +93,11 @@ const userLogin = async ({codeEmpresa, NumDoc, password}: AuthCode) => {
             tipoUsuario: user.TipoUsuario,
         }
         
-        const token = generateToken(JSON.stringify(data))
-        return token; 
+        const token = generateToken(JSON.stringify(data));
+        return {
+            message: "Bienvenido al sistema de asistencia",
+            token: token
+        }; 
     }catch(err: any){
         throw new Error(err.message);
     }
