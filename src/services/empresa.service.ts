@@ -11,12 +11,25 @@ class EmpresaService{
         return this.instance;
     }
 
-    async InsertCode({code}: Empresa){
-        const newEmpresa = new EmpresaDb();
-        newEmpresa.codeEmpresa = code
+    async InsertCode(codes: Array<Empresa>){
+        try{
+            const empresarepo = AppDataSource.getRepository(EmpresaDb);
 
-        const response = await AppDataSource.getRepository(EmpresaDb).save(newEmpresa)
-        return response
+            for (const code of codes) {
+                const exist = await empresarepo.exist({
+                    where: {
+                        codeEmpresa: code.code,
+                    },
+                });
+                if (!exist) {
+                    const newEmpresa = new EmpresaDb();
+                    newEmpresa.codeEmpresa = code.code
+                    await AppDataSource.getRepository(EmpresaDb).save(newEmpresa)
+                }
+            }
+        }catch(e: any){
+            throw new Error(e.message);
+        }   
     }
 
     async getCode(){

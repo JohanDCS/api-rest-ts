@@ -6,7 +6,7 @@ export interface Usuario extends Auth{
 
 export enum tipoUser{
     Usuario = "Usuario",
-    Administrador = "Administador"
+    Administrador = "Administrador"
 }
 
 export const checkEnumTipoUser = (text: string):boolean => {

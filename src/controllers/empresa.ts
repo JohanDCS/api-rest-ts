@@ -13,9 +13,6 @@ class EmpresaController{
 
     async postEmpresa(req: Request, res: Response){
         try{
-            const {code} = req.body;
-            const response = await empresaService.InsertCode({code: code});
-            return res.status(200).json({message: "insertado correctamente"});
         }catch(e: any){
             handleHTTP(res, "error al insertar los datos", e.message)
         }
